@@ -2,8 +2,8 @@ name: Daily Commit
 
 on:
   schedule:
-    - cron: '0 9 * * *'  # Runs daily at 9:00 AM UTC
-  workflow_dispatch:      # Allows manual run from GitHub UI
+    - cron: '0 9 * * *'  # Daily at 9:00 AM UTC
+  workflow_dispatch:      # Allow manual trigger
 
 jobs:
   daily_commit:
@@ -15,21 +15,16 @@ jobs:
 
       - name: Create a commit with your email (22f3002257@ds.study.iitm.ac.in)
         run: |
-          # Set up Git user info
           git config user.name "DevSync Automation"
           git config user.email "22f3002257@ds.study.iitm.ac.in"
-          
-          # Simulate file change by appending timestamp
+
           echo "Commit made at $(date)" >> timestamp.txt
-          
-          # Stage and commit changes
+
           git add timestamp.txt
           git commit -m "Automated daily commit" || echo "Nothing to commit"
 
-          # Update the remote to use the GitHub token
+          # ✅ Use GITHUB_TOKEN for push authentication (this is key!)
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-
-          # Push to the main branch
           git push origin HEAD:main
 
       - name: Verify Commit
