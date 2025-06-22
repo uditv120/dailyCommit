@@ -13,14 +13,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     
-- name: Create a commit with your email
-  run: |
-    git config user.name "DevSync Automation"
-    git config user.email "22f3002257@ds.study.iitm.ac.in"
-    echo "Commit made at $(date)" >> timestamp.txt
-    git add timestamp.txt
-    git commit -m "Automated daily commit" || echo "Nothing to commit"
-    git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
+    - name: Create a commit with your email
+      run: |
+        git config user.name "DevSync Automation"
+        git config user.email "22f3002257@ds.study.iitm.ac.in"
+        echo "Commit made at $(date)" >> timestamp.txt
+        git add timestamp.txt
+        git commit -m "Automated daily commit" || echo "Nothing to commit"
+        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
 
 
     - name: Verify Commit
